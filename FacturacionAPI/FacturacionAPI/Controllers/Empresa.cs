@@ -32,7 +32,7 @@ namespace FacturacionAPI.Controllers
         public Dictionary<string, bool> Post([FromBody] Models.Empresa empresa)
         {
             Dictionary<string, bool> dic = new Dictionary<string, bool>();
-            if (this.GetWhereCodigo(empresa.Codigo) != null)
+            if (this.GetWhereCodigo(empresa.Codigo) == null)
             {
                 this._APIContext.Empresas.Add(empresa);
                 this._APIContext.SaveChanges();
@@ -44,17 +44,25 @@ namespace FacturacionAPI.Controllers
         }
 
         [HttpPut]
-        public void Put([FromBody] Models.Empresa empresa)
+        public Dictionary<string, bool> Put([FromBody] Models.Empresa empresa)
         {
-            Models.Empresa newEmpresa = this.GetWhereId(empresa.Id);
-            newEmpresa.Codigo = empresa.Codigo;
-            newEmpresa.Direccion = empresa.Direccion;
-            newEmpresa.Itbis = empresa.Itbis;
-            newEmpresa.Ncf = empresa.Ncf;
-            newEmpresa.Nombre = empresa.Nombre;
-            newEmpresa.Rnc = empresa.Rnc;
-            newEmpresa.Telefono = empresa.Telefono;
-            this._APIContext.SaveChanges();
+            Dictionary<string, bool> dic = new Dictionary<string, bool>();
+            if (this.GetWhereCodigo(empresa.Codigo) == null)
+            {
+                Models.Empresa newEmpresa = this.GetWhereId(empresa.Id);
+                newEmpresa.Codigo = empresa.Codigo;
+                newEmpresa.Direccion = empresa.Direccion;
+                newEmpresa.Itbis = empresa.Itbis;
+                newEmpresa.Ncf = empresa.Ncf;
+                newEmpresa.Nombre = empresa.Nombre;
+                newEmpresa.Rnc = empresa.Rnc;
+                newEmpresa.Telefono = empresa.Telefono;
+                this._APIContext.SaveChanges();
+                dic.Add("ok", true);
+                return dic;
+            }
+            dic.Add("ok", false);
+            return dic;
         }
 
         [HttpDelete("{id}")]
