@@ -1,0 +1,26 @@
+<main class="container mt-3">
+  <h1 *ngIf="producto.id == 0" class="text-center">Insertar Producto</h1>
+  <h1 *ngIf="producto.id != 0" class="text-center">Actualizar Producto</h1>
+  <a routerLink="/productos" class="btn btn-primary my-3">Volver</a>
+  <form (ngSubmit)="Submit()" #form="ngForm">
+    <div class="mb-3">
+      <label for="codigo" class="form-label">Codigo</label>
+      <input type="text" class="form-control" [(ngModel)]='producto.codigo' name="codigo" id="codigo" required>
+    </div>
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input type="text" class="form-control" [(ngModel)]='producto.nombre' name="nombre" id="nombre" required>
+    </div>
+    <div class="mb-3">
+      <label for="cantidad" class="form-label">Cantidad</label>
+      <input type="number" min="0" class="form-control" [(ngModel)]='producto.cantidad' name="cantidad" id="cantidad" required>
+    </div>
+    <div class="mb-3">
+      <label for="precio" class="form-label">Precio</label>
+      <input type="number" min="0" class="form-control" [(ngModel)]='producto.precio' name="precio" id="precio" required>
+    </div>
+    <div class="mb-3">
+      <input type="submit" class="btn btn-primary" value="Guardar">
+    </div>
+  </form>
+</main>

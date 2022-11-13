@@ -1,0 +1,38 @@
+<main class="container mt-3">
+  <h1 *ngIf="empresa.id==0" class="text-center">Insertar Empresa</h1>
+  <h1 *ngIf="empresa.id!=0" class="text-center">Actualizar Empresa</h1>
+  <a routerLink="/admin" class="btn btn-primary my-3">Volver</a>
+  <form (ngSubmit)="Submit()" #form="ngForm">
+    <div class="mb-3">
+      <label for="codigo" class="form-label">Codigo</label>
+      <input type="text" class="form-control" [(ngModel)]='empresa.codigo' name="codigo" id="codigo" required>
+    </div>
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input type="text" class="form-control" [(ngModel)]='empresa.nombre' name="nombre" id="nombre" required>
+    </div>
+    <div class="mb-3">
+      <label for="direccion" class="form-label">Direccion</label>
+      <input type="text" class="form-control" [(ngModel)]='empresa.direccion' name="direccion" id="direccion" required>
+    </div>
+    <div class="mb-3">
+      <label for="telefono" class="form-label">Telefono</label>
+      <input type="text" class="form-control" [(ngModel)]='empresa.telefono' name="telefono" id="telefono" required>
+    </div>
+    <div class="mb-3">
+      <label for="itbis" class="form-label">ITBIS</label>
+      <input type="number" step="any" min="0" max="100" class="form-control" [(ngModel)]='empresa.itbis' name="itbis" id="itbis" required>
+    </div>
+    <div class="mb-3">
+      <label for="rnc" class="form-label">RNC</label>
+      <input type="text" class="form-control" [(ngModel)]='empresa.rnc' name="rnc" id="rnc" required>
+    </div>
+    <div class="mb-3">
+      <label for="ncf" class="form-label">NCF</label>
+      <input type="text" class="form-control" [(ngModel)]='empresa.ncf' name="ncf" id="ncf" required>
+    </div>
+    <div class="mb-3">
+      <input type="submit" class="btn btn-primary" value="Guardar">
+    </div>
+  </form>
+</main>

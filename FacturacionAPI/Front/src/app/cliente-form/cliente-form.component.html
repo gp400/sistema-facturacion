@@ -1,0 +1,38 @@
+<main class="container mt-3">
+  <h1 *ngIf="cliente.id==0" class="text-center">Insertar Cliente</h1>
+  <h1 *ngIf="cliente.id!=0" class="text-center">Actualizar Cliente</h1>
+  <a routerLink="/" class="btn btn-primary my-3">Volver</a>
+  <form (ngSubmit)="Submit()" #form="ngForm">
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input type="text" class="form-control" [(ngModel)]='cliente.nombre' name="nombre" id="nombre" required>
+    </div>
+    <div class="mb-3">
+      <label for="apellido" class="form-label">Apellido</label>
+      <input type="text" class="form-control" [(ngModel)]='cliente.apellido' name="apellido" id="apellido" required>
+    </div>
+    <div class="mb-3">
+      <label for="cedula" class="form-label">Cedula</label>
+      <input type="text" class="form-control" [(ngModel)]='cliente.cedula' name="cedula" id="cedula" required>
+    </div>
+    <div class="mb-3">
+      <label for="telefono" class="form-label">Telefono</label>
+      <input type="text" class="form-control" [(ngModel)]='cliente.telefono' name="telefono" id="telefono" required>
+    </div>
+    <div class="mb-3">
+      <label for="correo" class="form-label">Correo</label>
+      <input type="text" class="form-control" [(ngModel)]='cliente.correo' name="correo" id="correo" required>
+    </div>
+    <div class="mb-3">
+      <label for="direccion" class="form-label">Direccion</label>
+      <input type="text" class="form-control" [(ngModel)]='cliente.direccion' name="direccion" id="direccion" required>
+    </div>
+    <div class="mb-3">
+      <label for="rnc" class="form-label">RNC</label>
+      <input type="text" class="form-control" [(ngModel)]='cliente.rnc' name="rnc" id="rnc" required>
+    </div>
+    <div class="mb-3">
+      <input type="submit" class="btn btn-primary" value="Guardar">
+    </div>
+  </form>
+</main>

@@ -1,0 +1,107 @@
+<main class="container mt-3">
+  <h1 *ngIf="factura.id == 0" class="text-center">Insertar Factura</h1>
+  <h1 *ngIf="factura.id != 0" class="text-center">Actualizar Factura</h1>
+  <a routerLink="/facturas" class="btn btn-primary my-3">Volver</a>
+  <form (ngSubmit)="Submit()" #form="ngForm">
+    <div class="mb-3">
+      <label for="numero" class="form-label">Numero</label>
+      <input type="number" min="0" class="form-control" [(ngModel)]='factura.numero' name="numero" id="numero" required>
+    </div>
+    <div class="mb-3">
+      <label for="fecha" class="form-label">Fecha</label>
+      <input type="date" class="form-control" [(ngModel)]='factura.fecha' name="fecha" id="fecha" required>
+    </div>
+    <div class="mb-3">
+      <label for="vence" class="form-label">Vence</label>
+      <input type="date" class="form-control" [(ngModel)]='factura.vence' name="vence" id="vence" required>
+    </div>
+    <div class="mb-3">
+      <label for="modoPago" class="form-label">Modo de Pago</label>
+      <select class="form-select" [(ngModel)]='factura.modoPago' name="modoPago" id="modoPago" required>
+        <option value="{{modoPago.EFECTIVO}}">{{modoPago.EFECTIVO_LABEL}}</option>
+        <option value="{{modoPago.TARJETA}}">{{modoPago.TARJETA_LABEL}}</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="condicionPago" class="form-label">Condicion de Pago</label>
+      <select class="form-select" [(ngModel)]='factura.condicionPago' name="condicionPago" id="condicionPago" required>
+        <option value="{{condicionPago.CREDITO}}">{{condicionPago.CREDITO_LABEL}}</option>
+        <option value="{{condicionPago.CONTADO}}">{{condicionPago.CONTADO_LABEL}}</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="clienteId" class="form-label">Cliente</label>
+      <select class="form-select" [(ngModel)]='factura.clienteId' name="clienteId" id="clienteId" required>
+        <ng-template ngFor let-cliente [ngForOf]="clientes">
+          <option value="{{cliente.id}}">{{cliente.nombre}} {{cliente.apellido}}</option>
+        </ng-template>
+      </select>
+    </div>
+    <div class="mb-3">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" (change)="setNCF()" [(ngModel)]="factura.usaComprobante" [ngModelOptions]="{standalone: true}" id="usaComprobante">
+        <label class="form-check-label" for="usaComprobante">
+          Usa Comprobante
+        </label>
+      </div>
+    </div>
+    <div class="mb-3" *ngIf="factura.usaComprobante">
+      <label for="ncf" class="form-label">NCF</label>
+      <input type="text" class="form-control" [(ngModel)]='factura.ncf' name="ncf" id="ncf" disabled readonly>
+    </div>
+    <div class="mb-3 mt-4">
+      <h3>Productos</h3>
+      <div class="d-md-flex justify-content-between">
+        <div class="flex-grow-1 pe-md-2">
+          <label for="ad" class="form-label">Producto</label>
+          <select class="form-select" #productoDetalle>
+            <ng-template ngFor let-producto [ngForOf]="productos">
+              <option *ngIf="validarDetalle(producto.id)" value="{{producto.id}}">{{producto.nombre}}</option>
+            </ng-template>
+          </select>
+        </div>
+        <div class="pt-3 pt-md-0 pe-md-2">
+          <label for="cantidad" class="form-label">Cantidad</label>
+          <input type="number" min="0" class="form-control" id="cantidad" #cantidadDetalle>
+        </div>
+        <div class="pt-md-0 align-self-end">
+          <button (click)="agregarDetalle()" type="button" class="btn btn-success mt-3">Agregar</button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="detalles.length != 0" class="my-4">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>ITBIS</th>
+            <th>Total</th>
+            <th>Accion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let detalle of detalles">
+            <td>{{getProducto(detalle.productoId).nombre}}</td>
+            <td>{{detalle.cantidad}}</td>
+            <td>{{getProducto(detalle.productoId).precio}}</td>
+            <td>{{Math.round(getProducto(detalle.productoId).precio*detalle.cantidad*getEmpresa().itbis)/100}}</td>
+            <td>{{(Math.round(getProducto(detalle.productoId).precio*detalle.cantidad))+(Math.round(getProducto(detalle.productoId).precio*detalle.cantidad*getEmpresa().itbis)/100)}}</td>
+            <td>
+              <button (click)="borrarDetalle(detalle.productoId)" class="btn btn-danger">Borrar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="text-end">
+        <p><span class="fw-bold">Sub-Total:</span> {{getSubtotal()}}</p>
+        <p><span class="fw-bold">ITBIS:</span> {{getItbis()}}</p>
+        <p><span class="fw-bold">Total:</span> {{getSubtotal()+getItbis()}}</p>
+      </div>
+    </div>
+    <div class="mb-5">
+      <input type="submit" class="btn btn-primary" value="Guardar">
+    </div>
+  </form>
+</main>

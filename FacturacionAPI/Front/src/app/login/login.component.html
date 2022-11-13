@@ -1,0 +1,16 @@
+<main class="center">
+  <div class="card w-100">
+    <div class="card-body">
+      <h4 class="card-title text-center">Inicie sesion</h4>
+      <form (ngSubmit)="Submit()">
+        <div class="my-3">
+          <label for="codigo" class="form-label">Codigo</label>
+          <input type="text" class="form-control" [(ngModel)]='codigo' name="codigo" id="codigo">
+        </div>
+        <div>
+          <input class="btn btn-primary" type="submit" value="Iniciar Sesion">
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
